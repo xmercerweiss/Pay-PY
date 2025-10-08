@@ -9,15 +9,48 @@ RATE_OT = 2972
 OT_THRESHOLD = 40
 
 
+# i/o Info
+H_TO_W_MODE = "+"
+W_TO_H_MODE = "-"
+MODES = {
+    H_TO_W_MODE,
+    W_TO_H_MODE
+}
+
+BAD_USE_MSG = "wages: Bad usage\nExpected: wages (+|-) N, where N is a floating-point value"
+
+
 def main():
     try:
-        h = float(sys.argv[1])
-        g = gross(h)
-        w = withholdings(g)
-        print(as_usd(g - w))
-    except (ValueError, IndexError):
-        # If given none/invalid input, return -1 to signal failure
-        print(-1)
+        flag = sys.argv[1]
+        n = float(sys.argv[2])
+        assert flag in MODES
+        assert n >= 0
+    except:
+        # If anything breaks, assume it's because of bad input.
+        # Print out expected usage
+        print(BAD_USE_MSG, file=sys.stderr)
+        exit(1)
+    if flag == H_TO_W_MODE:
+        print(f"${hours_to_paycheck(n):.2f} earned after {n:.1f} hours")
+    elif flag == W_TO_H_MODE:
+        h = paycheck_to_hours(n)
+        print(f"{h:.1f} hours needed for >= ${n:.2f} (${hours_to_paycheck(h):.2f})")
+
+
+def hours_to_paycheck(hours):
+    g = gross(hours)
+    w = withholdings(g)
+    return (g - w) / 100
+
+
+def paycheck_to_hours(target):
+    h = 0
+    wages = hours_to_paycheck(h)
+    while wages - target < 0:
+        h += 0.2
+        wages = hours_to_paycheck(h)
+    return h
 
 
 # Return gross earnings (in cents) based on number of worked hours (as float)
@@ -50,12 +83,6 @@ def withholdings(gross):
 
     # Return deducted total as integer # of cents
     return 0 if total <= 0 else int(total * 100)
-
-
-# Return the string representation of a number of cents as dollars
-def as_usd(c):
-    dollars, cents = divmod(int(c), 100)
-    return f"${dollars}.{cents:02d}"
 
 
 if __name__ == "__main__":
