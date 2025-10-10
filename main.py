@@ -2,8 +2,8 @@ import math
 import sys
 
 # US Cents / Hour
-RATE_STD = 1981  
-RATE_OT = 2972   
+RATE_STD = 0
+RATE_OT = 0   
 
 # Hours
 OT_THRESHOLD = 40
