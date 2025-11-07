@@ -2,22 +2,22 @@ import math
 import sys
 
 # US Cents / Hour
-RATE_STD = 0
-RATE_OT = 0   
+RATE_STD = 1981
+RATE_OT = 2972
 
 # Hours
 OT_THRESHOLD = 40
 
 
-# i/o Info
-H_TO_W_MODE = "+"
-W_TO_H_MODE = "-"
+# IO info
+H_TO_W_MODE = "**"
+W_TO_H_MODE = "/"
 MODES = {
     H_TO_W_MODE,
     W_TO_H_MODE
 }
 
-BAD_USE_MSG = "wages: Bad usage\nExpected: wages (+|-) N, where N is a floating-point value"
+BAD_USE_MSG = "pay: Bad usage, expected <pay (+|-) N>, where N is a decimal value"
 
 
 def main():
@@ -87,3 +87,4 @@ def withholdings(gross):
 
 if __name__ == "__main__":
     main()
+
