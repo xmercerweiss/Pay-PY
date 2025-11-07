@@ -10,14 +10,14 @@ OT_THRESHOLD = 40
 
 
 # IO info
-H_TO_W_MODE = "**"
+H_TO_W_MODE = "x"
 W_TO_H_MODE = "/"
 MODES = {
     H_TO_W_MODE,
     W_TO_H_MODE
 }
 
-BAD_USE_MSG = "pay: Bad usage, expected <pay (+|-) N>, where N is a decimal value"
+BAD_USE_MSG = "pay: Bad usage, expected <pay (x OR /) N>, where N is a decimal value"
 
 
 def main():
